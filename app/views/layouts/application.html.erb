@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-type"
+        content="text/html; charset=utf-8"/>
+  <title>LearnWords</title>
+  <%= stylesheet_link_tag 'style' %>
+  <%= stylesheet_link_tag 'default' %>
+  <%= stylesheet_link_tag 'alphacube' %>
+
+
+  <%= javascript_include_tag :defaults %>
+  <%= javascript_include_tag 'window' %>
+  <%= javascript_include_tag 'window_ext' %>
+</head>
+<body>
+
+<div id="header">
+  <div id="yourdecks">
+    <a href="<%= url_for(:controller => 'decks', :action => 'list') %>">
+      <img src="/images/youdecks.jpg"/>
+    </a>
+  </div>
+
+  <div class="loginBlock">
+    <% if @current_user %>
+        <%= link_to 'Sign out', :controller => 'session', :action => 'logout' %>
+    <% else %>
+        <%= link_to 'Sign in', :controller => 'session', :action => 'login' %>
+    <% end %>
+  </div>
+
+  <h1>&nbsp;<%= link_to 'LearnWords', :controller => 'main' %></h1>
+
+  <div class="subtext">An easy way to learn new words</div>
+</div>
+
+<% if ! flash.empty? %>
+    <div id="flash">
+      <%= flash_messages %>
+    </div>
+<% end %>
+
+<div id="content">
+  <%= yield %>
+</div>
+
+</body>
+</html>

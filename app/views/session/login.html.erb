@@ -1,0 +1,23 @@
+<h2>
+  Sign in
+</h2>
+
+<fieldset>
+  <legend>Sign in with your learnwords account</legend>
+  <% form_tag :action => 'login' do %>
+      <div class="formBlock">
+        <label for="login">Login</label>
+        <%= text_field_tag :login %>
+      </div>
+
+      <div class="formBlock">
+        <label for="password">Password</label>
+        <%= password_field_tag :password %>
+      </div>
+
+      <div class="formBlock"><%= submit_tag 'Login', :class => "submit" %></div>
+  <% end %>
+</fieldset>
+
+<h2>Don't have a learnwords account?</h2>
+<%= link_to 'Create an account right now!', :controller => 'session', :action => 'register_user' %>

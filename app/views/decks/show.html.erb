@@ -1,0 +1,46 @@
+<fieldset>
+  <legend>Edit Deck <strong>'<%= @deck.name %>'</strong></legend>
+  <%= error_messages_for 'deck' %>
+  <% form_for :deck, url: {action: 'edit', id: @deck.id} do |form| %>
+      <div class="formBlock">
+        <label for="deck_name">Name</label>
+        <%= form.text_field :name, :size => 40 %>
+      </div>
+
+      <div class="formBlock">
+        <label for="deck_is_private">Private</label>
+        <%= form.check_box :is_private %>
+      </div>
+
+      <div class="formBlock">
+        <label for="deck_is_active">Active</label>
+        <%= form.check_box :is_active %>
+      </div>
+
+      <div class="formBlock">
+        <%= submit_tag 'Save Changes', class: "submit" %>
+        <%= link_to 'Delete', controller: 'decks', action: 'delete', id: @deck.id %>
+      </div>
+  <% end %>
+</fieldset>
+
+<div class="button">
+    <%= popup_window 'Create a New Word', 'Create a Word',
+                       url_for(action: "create", controller: 'words', deck_id: @deck.id) %>
+</div>
+
+<div class="button">
+    <%= link_to 'Learn Words', :controller => 'learn', :action => 'show_word', :deck_id => @deck.id %>
+</div>
+<div style="clear:both;"/>
+
+<h2>Words</h2>
+<% for word in @deck.words %>
+    <% is_even = is_even ? false : true %>
+    <div class="word<%= is_even ? 'Even' : 'Odd' %>">
+      <%= popup_window word.word, 'Edit Word',
+                       url_for(action: "edit", controller: 'words', id: word.id) %>
+
+      <span class="wordStatus">(<%= word.status %>)</span>
+    </div>
+<% end %>

@@ -1,0 +1,20 @@
+<%= stylesheet_link_tag 'style' %>
+
+<%= error_messages_for 'word', message: nil, header_message: nil %>
+<fieldset>
+  <% form_for :word do |form| %>
+      <div class="formBlock">
+        Word
+        <%= form.text_field :word, size: 40 %>
+      </div>
+
+      <div class="formBlock">
+        Explanation<br>
+        <%= form.text_area :explanation, size: 30 %>
+      </div>
+
+      <%= hidden_field_tag 'deck_id', @deck_id %>
+      
+      <div class="formBlock"><%= submit_tag 'Create', class: "submit" %></div>
+  <% end %>
+</fieldset>

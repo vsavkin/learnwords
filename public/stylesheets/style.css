@@ -1,0 +1,163 @@
+body {
+    margin: 0 0 25px;
+    padding: 0;
+    background-color: #f0f0f0;
+    font-family: "Lucida Grande", "Bitstream Vera Sans", "Verdana";
+    font-size: 13px;
+    color: #333;
+}
+
+a {
+    color: #333;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+#header {
+    text-align: center;
+    margin: 30px;
+    padding: 10px;
+    border-bottom: solid 1px gray;
+}
+
+#header h1 {
+    font-size: 35px;
+    margin: 2px;
+}
+
+.subtext {
+    font-style: italic;
+    font-family: serif;
+}
+
+h1 a {
+    color: #333;
+    text-decoration: none;
+}
+
+h2 a {
+    color: #333;
+    text-decoration: none;
+}
+
+#header #yourdecks {
+    float: left;
+}
+
+#content {
+    margin: 30px;
+}
+
+.loginBlock {
+    width: 100px;
+    padding: 20px 5px 20px 5px;
+    float: right;
+    text-align: center;
+    background-color: lightgray;
+}
+
+fieldset {
+    margin: 15px 0px;
+    border: 1px solid lightgray;
+}
+
+label {
+    width: 100px;
+    text-align: right;
+    display: block;
+    float: left;
+    padding-right: 5px;
+}
+
+.formBlock {
+    margin-top: 7px;
+}
+
+.formBlock textarea {
+    width: 100%;
+}
+
+.wordEven {
+    padding: 7px;
+    margin: 7px 0px 7px 0px;
+    border: 1px solid lightgray;
+}
+
+.wordOdd {
+    padding: 7px;
+    margin: 7px 0px 7px 0px;
+    background-color: #d8e2f1;
+    border: 1px solid lightgray;
+}
+
+.wordStatus {
+    font-size: xx-small;
+}
+
+.button {
+    width: 180px;
+    padding: 20px 5px 20px 5px;
+    text-align: center;
+    background-color: lightgray;
+    float: left;
+    margin: 5px;
+}
+
+.deckDescription {
+    float: left;
+    margin: 0px 20px 20px 0px;
+    padding: 10px;
+    width: 170px;
+    background-color: #d8e2f1;
+    border: 1px solid gray;
+}
+
+#flash {
+    display: block;
+    top: 0px;
+    left: 150px;
+    position: absolute;
+    height: 80px;
+    width: 250px;
+    padding: 10px;
+    font-size: larger;
+    background-color: lightgreen;
+}
+
+#learnWordsBlock {
+    margin: auto;
+    width: 800px;
+    padding: 10px;
+    background-color: white;
+    border: 1px solid gray;
+}
+
+#learnWordsBlock h2 {
+    text-align: center;
+}
+
+#explanation {
+    margin: 20px 0px;
+    padding: 10px;
+    height: 300px;
+}
+
+#markWordsTable{
+    width: 100%;
+}
+
+#markWordsTable td{
+    padding: 5px;
+    margin: 10px;
+    text-align: center;
+    background-color: lightgray;
+    font-size: xx-small;
+    width: 25%;
+}
+#markWordsTable a{
+    font-size: 16px;
+}

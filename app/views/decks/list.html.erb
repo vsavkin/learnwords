@@ -1,0 +1,36 @@
+<h2>Create a New Deck</h2>
+<%= error_messages_for 'deck' %>
+<fieldset>
+  <legend>Fill in Form</legend>
+  <% form_for :deck, :url => {:action => 'create'} do |form| %>
+      <div class="formBlock">
+        <label for="deck_name">Name</label>
+        <%= form.text_field :name, :size => 40 %>
+      </div>
+
+      <div class="formBlock">
+        <label for="deck_is_private">Private</label>
+        <%= form.check_box :is_private %>
+      </div>
+
+      <div class="formBlock"><%= submit_tag 'Create New Deck', :class => "submit" %></div>
+  <% end %>
+</fieldset>
+
+<h2>Your Decks</h2>
+
+
+<% if !@decks.empty? %>
+
+    <% for deck in @decks do %>
+        <div class="deckDescription">
+            <h3><%= link_to deck.name, :controller => 'decks', :action => 'show', :id => deck.id %></h3>
+            <p><%= deck.is_private ? 'Private' : 'Public' %></p>
+            <p>There are <%= deck.words.size %> words</p>
+            <p><%= deck.words.show_by_now.size %> should be repeated</p>
+            <h4><%= link_to 'Learn Words', :controller => 'learn', :action => 'show_word', :deck_id => deck.id %></h4>
+        </div>
+    <% end %>
+<% else %>
+    You have no decks
+<% end %>

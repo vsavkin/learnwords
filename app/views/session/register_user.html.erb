@@ -1,0 +1,21 @@
+<h2>
+    Creating an Account  
+</h2>
+<%= error_messages_for 'user' %>
+
+<fieldset>
+  <legend>Fill in your login and password</legend>
+  <% form_for :user do |form| %>
+      <div class="formBlock">
+        <label for="user_login">Login</label>
+        <%= form.text_field :login, :size => 40 %>
+      </div>
+
+      <div class="formBlock">
+        <label for="user_password">Password</label>
+        <%= form.password_field :password, :size => 40 %>
+      </div>
+
+      <div class="formBlock"><%= submit_tag 'Create Account', :class => "submit" %></div>
+  <% end %>
+</fieldset>

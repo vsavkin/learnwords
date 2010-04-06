@@ -1,0 +1,32 @@
+<div id="learnWordsBlock">
+  <h2><%= @word.word %></h2>
+
+  <div id="explanation">
+    <% if @with_answer %>
+        <%= @word.explanation %>
+    <% else %>
+        ...
+    <% end %>
+  </div>
+
+  <table id="markWordsTable">
+    <% if @with_answer %>
+        <tr>
+          <% Word.show_in_days[@word.status].each do |status, days| %>
+              <td>
+                <%= "in #{days} days" %>
+                <br>
+                <%= link_to status, controller: 'learn', action: 'update_status',
+                    word_id: @word.id, status: status %>
+              </td>
+          <% end %>
+        </tr>
+    <% else %>
+        <tr>
+            <td>                
+              <%= link_to 'Show the Answer', controller: 'learn', action: 'answer',id: @word.id %>
+            </td>
+        </tr>
+    <% end %>
+  </table>
+</div>
