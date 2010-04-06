@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100305054316) do
+ActiveRecord::Schema.define(:version => 20100406224151) do
 
   create_table "decks", :force => true do |t|
     t.string   "name"
@@ -29,9 +29,9 @@ ActiveRecord::Schema.define(:version => 20100305054316) do
 
   create_table "words", :force => true do |t|
     t.string   "word"
-    t.string   "explanation"
+    t.text     "explanation", :limit => 255
     t.datetime "show_at"
-    t.string   "status",      :default => "bad"
+    t.string   "status",                     :default => "bad"
     t.integer  "deck_id"
     t.datetime "created_at"
     t.datetime "updated_at"
