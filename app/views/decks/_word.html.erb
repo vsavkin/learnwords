@@ -2,5 +2,5 @@
   <%= popup_window word.word, 'Edit Word',
                    url_for(action: "edit", controller: 'words', id: word.id) %>
 
-  <span class="wordStatus">(<%= word.status %>, <%= repeat_date_output(word.show_at) %>) </span>
+  <span class="wordStatus">(<%= word.status %>, <%= repeat_date_output(word.show_at) %>) <%= word.show_at %> <%= Time.now %></span>
 </div>
