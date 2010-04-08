@@ -5,12 +5,12 @@ describe Word do
     @valid_attributes = {
       :word => 'word',
       :explanation => 'some explanation',
-      :show_at => Time.now
+      :show_at => Time.zone.now
     }
   end
 
   it "should create a new instance given valid attributes" do
-    now = Time.now.utc - 1.second
+    now = Time.zone.now - 1.second
     w = Word.create!(@valid_attributes)
     w.status.should == 'bad'
     (w.show_at >= now).should be_true
@@ -42,7 +42,7 @@ describe Word do
     
     w.status.should == Word.next_statuses['bad']['good']
 
-    in_3_days = Time.now.utc + 3.day - 1.second
+    in_3_days = Time.zone.now + 3.day - 1.second
     (w.show_at >= in_3_days).should be_true
   end
 

@@ -21,7 +21,7 @@ class WordsController < ApplicationController
     if request.post?
       deck = Deck.find_by_id(@deck_id)
       @word = deck.create_word(params[:word])
-      @word.show_at = Time.now
+      @word.show_at = Time.zone.now
       if @word.save
         render :template => 'words/close', :layout => false
         return

@@ -35,7 +35,7 @@ class Word < ActiveRecord::Base
   end
 
   def fresh_copy
-    Word.new(attributes.merge(:status => 'bad', :show_at => Time.now))
+    Word.new(attributes.merge(:status => 'bad', :show_at => Time.zone.now))
   end
 
   def update_status(new_status)
