@@ -38,7 +38,7 @@
     <h2>The deck is empty</h2>
 <% else %>
     <div id="deckStats">
-      The are <%= @deck.words.size %> words in this deck. There are <%= @deck.words.need_to_learn.size %> words to learn.
+      The are <%= @deck.words.size %> words in this deck. There are <%= @deck.words.learnt.size %> learnt words.
     </div>
     <% for word in @deck.words %>
         <% is_even = is_even ? false : true %>
