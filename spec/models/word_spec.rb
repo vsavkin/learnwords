@@ -5,7 +5,7 @@ describe Word do
     @valid_attributes = {
       :word => 'word',
       :explanation => 'some explanation',
-      :show_at => Time.now.utc
+      :show_at => Time.now
     }
   end
 
@@ -17,21 +17,21 @@ describe Word do
   end
 
   it "should require word, explanation fields" do
-    w = Word.create(@valid_attributes.merge(:word => nil))
+    w = Word.create(@valid_attributes.merge(word: nil))
     w.should have(1).error_on(:word)
 
-    w = Word.create(@valid_attributes.merge(:word => ''))
+    w = Word.create(@valid_attributes.merge(word: ''))
     w.should have(1).error_on(:word)
 
-    w = Word.create(@valid_attributes.merge(:explanation => nil))
+    w = Word.create(@valid_attributes.merge(explanation: nil))
     w.should have(1).error_on(:explanation)
 
-    w = Word.create(@valid_attributes.merge(:explanation => ''))
+    w = Word.create(@valid_attributes.merge(explanation: ''))
     w.should have(1).error_on(:explanation)
   end
 
   it "should reject invalid statuses" do
-    w = Word.create(@valid_attributes.merge(:status => 'invalid'))
+    w = Word.create(@valid_attributes.merge(status: 'invalid'))
     w.should have(1).error_on(:status)
   end
 
@@ -47,7 +47,7 @@ describe Word do
   end
 
   it "should normalize the presentation of a word" do
-    w = Word.create(@valid_attributes.merge(:word => ' a    word   '))
+    w = Word.create(@valid_attributes.merge(word: ' a    word   '))
     w.word.should == 'a word'
   end
 end

@@ -7,7 +7,7 @@ describe Deck do
     }
 
     @word_valid_attributes = {
-      word: 'word', explanation: 'word', show_at: Time.now.utc
+      word: 'word', explanation: 'word', show_at: Time.now
     }
   end
 
@@ -64,6 +64,8 @@ describe Deck do
   it "should return unlearnt words with show_at < now" do
     deck = Deck.create(@valid_attributes)
     w = deck.words.create(@word_valid_attributes)
+
+    puts w.show_at
     
     words = deck.words.show_by_now
     words.size.should == 1
@@ -71,16 +73,16 @@ describe Deck do
 
   it "should return a random word from the not learnt words with show_at < now" do
     deck = Deck.create(@valid_attributes)
-    word_in_future = deck.words.create(@word_valid_attributes.merge(show_at: Time.now.utc + 1.day))
-    learnt_word = deck.words.create(@word_valid_attributes.merge(show_at: Time.now.utc - 1.day, status: 'learnt'))
+    word_in_future = deck.words.create(@word_valid_attributes.merge(show_at: Time.now + 1.day))
+    learnt_word = deck.words.create(@word_valid_attributes.merge(show_at: Time.now - 1.day, status: 'learnt'))
     word_that_should_be_shown = deck.words.create(@word_valid_attributes)
     deck.random_word.should == word_that_should_be_shown
   end
 
   it "should return nil if all words are learnt" do
     deck = Deck.create(@valid_attributes)
-    word_in_future = deck.words.create(@word_valid_attributes.merge(show_at: Time.now.utc + 1.day))
-    learnt_word = deck.words.create(@word_valid_attributes.merge(show_at: Time.now.utc - 1.day, status: 'learnt'))
+    word_in_future = deck.words.create(@word_valid_attributes.merge(show_at: Time.now + 1.day))
+    learnt_word = deck.words.create(@word_valid_attributes.merge(show_at: Time.now - 1.day, status: 'learnt'))
     deck.random_word.should == nil
   end
 end

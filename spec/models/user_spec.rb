@@ -9,7 +9,7 @@ describe User do
     }
 
     @word_valid_attributes = {
-      :word => 'word', :explanation => 'word', :show_at => Time.now.utc
+      :word => 'word', :explanation => 'word', :show_at => Time.now
     }
   end
 
@@ -40,7 +40,7 @@ describe User do
     user2 = User.create(@valid_attributes.merge(:login => 'bbb'))
 
     deck = user1.decks.create(:name => 'SuperDeck')
-    deck.words.create(:word => 'word', :explanation => 'word', :status => 'normal', :show_at => Time.now.utc + 3.day)
+    deck.words.create(:word => 'word', :explanation => 'word', :status => 'normal', :show_at => Time.now + 3.day)
 
     user2.copy(deck)
 
