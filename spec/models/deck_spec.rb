@@ -63,7 +63,7 @@ describe Deck do
 
   it "should return unlearnt words with show_at < now" do
     deck = Deck.create(@valid_attributes)
-    w = deck.words.create(@word_valid_attributes)
+    deck.words.create(@word_valid_attributes)
 
     words = deck.words.show_by_now
     words.size.should == 1

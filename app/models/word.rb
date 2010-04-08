@@ -1,11 +1,12 @@
 class Word < ActiveRecord::Base
   belongs_to :deck
-  validates_length_of :word, :minimum => 1
-  validates_length_of :explanation, :minimum => 1
-  validates_inclusion_of :status, :in => ['bad', 'normal', 'good', 'excellent', 'learnt']
+  validates_length_of :word, minimum: 1
+  validates_length_of :explanation, minimum: 1
+  validates_inclusion_of :status, in: ['bad', 'normal', 'good', 'excellent', 'learnt']
 
-  named_scope :show_by_now, :conditions => ['show_at <= ? AND status != ?', Time.zone.now, 'learnt']
-  named_scope :learnt, :conditions => ['status = ?', 'learnt']
+  named_scope :show_by_now, lambda {{conditions: ['show_at <= ? AND status != ?', Time.zone.now, 'learnt']}}
+
+  named_scope :learnt, conditions: ['status = ?', 'learnt']
   
 
   def before_save
