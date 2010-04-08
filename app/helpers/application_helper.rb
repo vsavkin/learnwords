@@ -14,5 +14,4 @@ module ApplicationHelper
                              draggable: false, resizable: false, title: title,
                              minimizable: false, maximizable: false, effectOptions: {duration: 0.1}
   end
-
 end
