@@ -116,6 +116,11 @@ label {
     border: 1px solid gray;
 }
 
+#deckStats{
+    font-size: x-small;
+    padding:10px;
+}
+
 #flash {
     display: block;
     top: 0px;

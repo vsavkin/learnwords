@@ -5,6 +5,8 @@ class Word < ActiveRecord::Base
   validates_inclusion_of :status, :in => ['bad', 'normal', 'good', 'excellent', 'learnt']
 
   named_scope :show_by_now, :conditions => ['show_at <= ? AND status != ?', Time.now, 'learnt']
+  named_scope :need_to_learn, :conditions => ['status != ?', 'learnt']
+  
 
   def before_save
     self.word = Word.normalize(word)

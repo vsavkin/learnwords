@@ -19,7 +19,7 @@
 
       <div class="formBlock">
         <%= submit_tag 'Save Changes', class: "submit" %>
-        <%= link_to 'Delete', controller: 'decks', action: 'delete', id: @deck.id %>
+        <%= link_to 'Delete', {controller: 'decks', action: 'delete2', id: @deck.id}, {confirm: 'Are you sure?'} %>
       </div>
   <% end %>
 </fieldset>
@@ -32,15 +32,21 @@
 <div class="button">
     <%= link_to 'Learn Words', :controller => 'learn', :action => 'show_word', :deck_id => @deck.id %>
 </div>
-<div style="clear:both;"/>
+<div style="clear:both;"></div>
 
-<h2>Words</h2>
-<% for word in @deck.words %>
-    <% is_even = is_even ? false : true %>
-    <div class="word<%= is_even ? 'Even' : 'Odd' %>">
-      <%= popup_window word.word, 'Edit Word',
-                       url_for(action: "edit", controller: 'words', id: word.id) %>
-
-      <span class="wordStatus">(<%= word.status %>)</span>
+<% if @deck.words.empty? %>
+    <h2>The deck is empty</h2>
+<% else %>
+    <div id="deckStats">
+      The are <%= @deck.words.size %> words in this deck. There are <%= @deck.words.need_to_learn.size %> words to learn.
     </div>
+    <% for word in @deck.words %>
+        <% is_even = is_even ? false : true %>
+        <div class="word<%= is_even ? 'Even' : 'Odd' %>">
+          <%= popup_window word.word, 'Edit Word',
+                           url_for(action: "edit", controller: 'words', id: word.id) %>
+
+          <span class="wordStatus">(<%= word.status %>)</span>
+        </div>
+    <% end %>
 <% end %>
