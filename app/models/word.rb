@@ -4,7 +4,7 @@ class Word < ActiveRecord::Base
   validates_length_of :explanation, :minimum => 1
   validates_inclusion_of :status, :in => ['bad', 'normal', 'good', 'excellent', 'learnt']
 
-  named_scope :show_by_now, :conditions => ['show_at <= ? AND status != ?', Time.now, 'learnt']
+  named_scope :show_by_now, :conditions => ['show_at <= ? AND status != ?', Time.now.utc, 'learnt']
   named_scope :learnt, :conditions => ['status = ?', 'learnt']
   
 
