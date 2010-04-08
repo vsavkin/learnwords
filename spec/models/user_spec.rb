@@ -9,7 +9,7 @@ describe User do
     }
 
     @word_valid_attributes = {
-      :word => 'word', :explanation => 'word', :show_at => Time.now
+      :word => 'word', :explanation => 'word', :show_at => Time.now.utc
     }
   end
 
@@ -40,15 +40,15 @@ describe User do
     user2 = User.create(@valid_attributes.merge(:login => 'bbb'))
 
     deck = user1.decks.create(:name => 'SuperDeck')
-    deck.words.create(:word => 'word', :explanation => 'word', :status => 'normal', :show_at => Time.now + 3.day)
+    deck.words.create(:word => 'word', :explanation => 'word', :status => 'normal', :show_at => Time.now.utc + 3.day)
 
     user2.copy(deck)
 
     first_word_for(user1).status.should == 'normal'
-    (first_word_for(user1).show_at >= Time.now + 3.day - 1.second).should be_true
+    (first_word_for(user1).show_at >= Time.now.utc + 3.day - 1.second).should be_true
 
     first_word_for(user2).status.should == 'bad'
-    (first_word_for(user2).show_at < Time.now + 1.day).should be_true
+    (first_word_for(user2).show_at < Time.now.utc + 1.day).should be_true
   end
 
   it "shouldn't copy a private deck from another user" do

@@ -4,7 +4,7 @@ class Word < ActiveRecord::Base
   validates_length_of :explanation, :minimum => 1
   validates_inclusion_of :status, :in => ['bad', 'normal', 'good', 'excellent', 'learnt']
 
-  named_scope :show_by_now, :conditions => ['show_at <= ? AND status != ?', Time.now.utc, 'learnt']
+  named_scope :show_by_now, :conditions => ['show_at <= ? AND status != ?', Time.now, 'learnt']
   named_scope :learnt, :conditions => ['status = ?', 'learnt']
   
 
@@ -35,7 +35,7 @@ class Word < ActiveRecord::Base
   end
 
   def fresh_copy
-    Word.new(attributes.merge(:status => 'bad', :show_at => Time.now))
+    Word.new(attributes.merge(:status => 'bad', :show_at => Time.now.utc))
   end
 
   def update_status(new_status)

@@ -10,7 +10,7 @@ describe WordsController do
     User.should_receive(:find_by_id).with(@user.id).and_return(@user)
 
     @valid_word_attributes = {
-      'word' => 'word', 'explanation' => 'blamblam', 'show_at' => Time.now
+      'word' => 'word', 'explanation' => 'blamblam', 'show_at' => Time.now.utc
     }
   end
 
