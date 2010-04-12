@@ -13,6 +13,10 @@ a {
     font-weight: bold;
 }
 
+img {
+    border: 0;
+}
+
 a:hover {
     text-decoration: underline;
 }
