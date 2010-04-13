@@ -41,6 +41,12 @@ describe Word do
     w.update_status('good')
     
     w.status.should == Word.next_statuses['bad']['good']
+  end
+
+  it "should set new show_at depending on previous status and current time" do
+    w = Word.create!(@valid_attributes.merge(show_at: Time.zone.now - 10.days))
+    w.status.should == 'bad'
+    w.update_status('good')
 
     in_3_days = Time.zone.now + 3.day - 1.second
     (w.show_at >= in_3_days).should be_true
