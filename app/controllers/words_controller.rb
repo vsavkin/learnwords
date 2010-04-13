@@ -48,8 +48,8 @@ class WordsController < ApplicationController
 
   def test
     url = URI.parse('http://www.oup.com/oald-bin/web_getald7index1a.pl')
-    response = Net::HTTP.get(url)
-    render text: 'ok'
+    response = Net::HTTP.get(url + "?search_word=dog")
+    render text: response.body
   rescue Exception => e
     puts e.backtrace
     render text: e.inspect
