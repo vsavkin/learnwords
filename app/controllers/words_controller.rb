@@ -48,9 +48,10 @@ class WordsController < ApplicationController
 
   def test
     url = URI.parse('http://www.oup.com/oald-bin/web_getald7index1a.pl')
-    response = Net::HTTP.post_form(url, :search_word => 'dog')
+    response = Net::HTTP.get(url)
     render text: 'ok'
   rescue Exception => e
-    render text: e.backtrace.inspect
+    puts e.backtrace
+    render text: e.inspect
   end
 end
