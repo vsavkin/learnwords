@@ -1,3 +1,6 @@
+require 'net/http'
+require 'uri'
+
 class WordsController < ApplicationController
   before_filter :logging_required
 
@@ -41,5 +44,13 @@ class WordsController < ApplicationController
   rescue Exception => e
     puts e.inspect
     render nothing: true, status: 404
+  end
+
+  def test
+    url = URI.parse('http://google.com')
+    response = Net::HTTP.get(url)
+    render text: 'ok'
+  rescue Exception => e
+    render text: e.inspect  
   end
 end
