@@ -42,6 +42,6 @@ class Word < ActiveRecord::Base
   def update_status(new_status)
     next_status = Word.next_statuses[status][new_status]
     days = Word.show_in_days[status][new_status]
-    update_attributes!(:status => next_status, :show_at => self.show_at + days.day)
+    update_attributes!(:status => next_status, :show_at => Time.zone.now + days.day)
   end
 end
