@@ -51,6 +51,6 @@ class WordsController < ApplicationController
     response = Net::HTTP.post_form(url, :search_word => 'dog')
     render text: 'ok'
   rescue Exception => e
-    render text: e.inspect  
+    render text: e.backtrace + e.inspect
   end
 end
