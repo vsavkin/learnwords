@@ -1,6 +1,10 @@
 class WordsController < ApplicationController
   before_filter :logging_required
 
+  def initialize(facade = OaldParser::Facade.create_facade)
+    @facade = facade
+  end
+
   def edit
     @word = Word.find_by_id(params[:id])
     if !@word || !@current_user.has_word(@word)
@@ -28,5 +32,13 @@ class WordsController < ApplicationController
       end
     end
     render :layout => false
+  end
+
+
+  def retrieve_word_description
+    description = @facade.describe(str: params[:str])
+    render text: description
+  rescue Exception => e
+    render nothing: true, status: 404
   end
 end

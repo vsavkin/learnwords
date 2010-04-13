@@ -19,7 +19,7 @@
 
       <div class="formBlock">
         <%= submit_tag 'Save Changes', class: "submit" %>
-        <%= link_to 'Delete', {controller: 'decks', action: 'delete2', id: @deck.id}, {confirm: 'Are you sure?'} %>
+        <%= link_to 'Delete', {controller: 'decks', action: 'delete', id: @deck.id}, {confirm: 'Are you sure?'} %>
       </div>
   <% end %>
 </fieldset>
