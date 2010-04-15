@@ -16,17 +16,17 @@
       </div>
 
       <div class="formBlock">
-        Explanation
-        [<%= link_to_remote "Get",{
+        [<%= link_to_remote "Explanation",{
             url: {controller: 'words', action: 'retrieve_word_description'},
             success: 'setDescription(request)',
             failure: "alert(\"Can't find the description of this word\");",
             with: "'str=' + encodeURIComponent($('word_word').value)"} %>]<br>
+        
         <%= form.text_area :explanation, size: 30 %>
       </div>
 
       <%= hidden_field_tag 'deck_id', @deck_id %>
 
-      <div class="formBlock"><%= submit_tag 'Create', class: "submit" %></div>
+      <div class="formBlock"><%= submit_tag 'Submit', class: "submit" %></div>
   <% end %>
 </fieldset>

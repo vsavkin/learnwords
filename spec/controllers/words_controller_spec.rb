@@ -10,7 +10,7 @@ describe WordsController do
     User.should_receive(:find_by_id).with(@user.id).and_return(@user)
 
     @valid_word_attributes = {
-      'word' => 'word', 'explanation' => 'blamblam', 'show_at' => Time.zone.now
+            'word' => 'word', 'explanation' => 'blamblam', 'show_at' => Time.zone.now
     }
   end
 
@@ -21,7 +21,7 @@ describe WordsController do
     get 'edit', :id => @word.id
 
     assigns[:word].should == @word
-    response.should render_template('words/edit') 
+    response.should render_template('words/word')
   end
 
   it "should show the error message if the word doesn't exist" do
@@ -31,7 +31,7 @@ describe WordsController do
 
     assigns[:word].should == nil
     flash[:error].should == 'There is no such word'
-    response.should render_template('words/close') 
+    response.should render_template('words/close')
   end
 
   it "should show the error message if the deck isn't yours" do
@@ -57,7 +57,7 @@ describe WordsController do
 
   it "should show empty form for a new word" do
     get 'create'
-    response.should render_template('words/create')
+    response.should render_template('words/word')
   end
 
   it "should create a new word" do
@@ -83,6 +83,19 @@ describe WordsController do
     post 'create', :word => @valid_word_attributes, :deck_id => 1
 
     assigns[:word].should == @word
-    response.should render_template('words/create')
+    response.should render_template('words/word')
+  end
+
+  it "should retrieve word description" do
+    controller.should_receive(:description).with('dog').and_return('text')
+    get 'retrieve_word_description', str: 'dog'
+    response.should be_success
+    response.should have_text('text')
+  end
+
+  it "should return error code if it couldn't retrive the word" do
+    controller.should_receive(:description).with('dog').and_raise(Exception)
+    get 'retrieve_word_description', str: 'dog'
+    response.should_not be_success
   end
 end

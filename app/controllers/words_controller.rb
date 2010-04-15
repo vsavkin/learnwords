@@ -12,14 +12,14 @@ class WordsController < ApplicationController
     @word = Word.find_by_id(params[:id])
     if !@word || !@current_user.has_word(@word)
       flash[:error] = 'There is no such word'
-      render :template => 'words/close', :layout => false
+      render template: 'words/close', layout: false
       return
     end
 
     if request.post? && @word.update_attributes(params[:word])
-      render :template => 'words/close', :layout => false
+      render template: 'words/close', layout: false
     else
-      render :layout => false
+      render template: 'words/word', layout: false
     end
   end
 
@@ -30,19 +30,21 @@ class WordsController < ApplicationController
       @word = deck.create_word(params[:word])
       @word.show_at = Time.zone.now
       if @word.save
-        render :template => 'words/close', :layout => false
+        render template: 'words/close', layout: false
         return
       end
     end
-    render :layout => false
+    render template: 'words/word', layout: false
   end
 
-
   def retrieve_word_description
-    description = @facade.describe(str: params[:str])
-    render text: description
+    render text: description(params[:str])
   rescue Exception => e
-    puts e.inspect
     render nothing: true, status: 404
+  end
+
+  private
+  def description(str)
+    @facade.describe(str: str)
   end
 end
