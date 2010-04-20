@@ -120,6 +120,10 @@ label {
     border: 1px solid gray;
 }
 
+.smallLink {
+    font-size: 9px;    
+}
+
 #importance{
     font-size: 9px;
     font-weight: bold;
@@ -150,7 +154,19 @@ label {
     border: 1px solid gray;
 }
 
+#importantLearnWordsBlock {
+    margin: auto;
+    width: 800px;
+    padding: 10px;
+    background-color: #e6e6e6;
+    border: 1px solid gray;
+}
+
 #learnWordsBlock h2 {
+    text-align: center;
+}
+
+#importantLearnWordsBlock h2 {
     text-align: center;
 }
 

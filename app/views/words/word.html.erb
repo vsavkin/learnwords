@@ -5,7 +5,19 @@
   function setDescription(request){
       $('word_explanation').setValue(request.responseText);
   }
+
+  function updateImportantce(request){
+      response = request.responseText
+      if(response == 'true'){
+            $('importance').innerHTML = 'IMPORTANT';
+            $('word_is_important').setValue('t');
+      }else{
+            $('importance').innerHTML = '';
+            $('word_is_important').setValue('f');
+      }
+  }
 </script>
+
 
 <%= error_messages_for 'word', message: nil, header_message: nil %>
 <fieldset>
@@ -14,6 +26,7 @@
         Word
         <%= form.text_field :word, size: 40 %>
         <span id="importance">
+            
         </span>
       </div>
 
@@ -23,15 +36,17 @@
             success: 'setDescription(request)',
             failure: "alert(\"Can't find the description of this word\");",
             with: "'str=' + encodeURIComponent($('word_word').value)"} %>]<br>
-        
+
         <%= form.text_area :explanation, size: 30 %>
       </div>
 
       <%= hidden_field_tag 'deck_id', @deck_id %>
+      <%= form.hidden_field 'is_important' %>
 
       <div class="formBlock"><%= submit_tag 'Submit', class: "submit" %></div>
   <% end %>
 </fieldset>
 
 <%= observe_field(:word_word, url: {action: 'check_word_importance'}, frequency: 1,
-    update: :importance, with: "'str=' + encodeURIComponent($('word_word').value)") %>
+    success: 'updateImportantce(request)',
+    with: "'str=' + encodeURIComponent($('word_word').value)") %>

@@ -24,12 +24,23 @@ class WordsController < ApplicationController
     end
   end
 
+  def delete
+    word = Word.find_by_id(params[:id])
+    if !word || !@current_user.has_word(word)
+      flash[:error] = 'There is no such word'
+      redirect_to controller: 'main', action: 'index'
+    else
+      word.destroy
+      redirect_to controller: 'decks', action: 'show', id: word.deck.id 
+    end
+  end
+
   def create
     @deck_id = params[:deck_id].to_i
     if request.post?
       deck = Deck.find_by_id(@deck_id)
       @word = deck.create_word(params[:word])
-      @word.show_at = Time.zone.now
+      @word.show_at = Time.zone.now   
       if @word.save
         render template: 'words/close', layout: false
         return
@@ -46,9 +57,9 @@ class WordsController < ApplicationController
 
   def check_word_importance
     if important? params[:str]
-      render text: 'IMPORTANT'
+      render text: 'true'
     else
-      render nothing: true, status: 400  
+      render text: 'false'
     end
   end
 

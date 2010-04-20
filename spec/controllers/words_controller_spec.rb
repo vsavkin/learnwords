@@ -86,6 +86,28 @@ describe WordsController do
     response.should render_template('words/word')
   end
 
+  it "should show the error message if word doesn't belong to the current user" do
+    Word.should_receive(:find_by_id).with(@word.id.to_s).and_return(@word)
+    @user.should_receive(:has_word).with(@word).and_return(false)
+
+    get 'delete', :id => @word.id
+
+    flash[:error].should == 'There is no such word'
+    response.should redirect_to(controller: 'main', action: 'index')
+  end
+
+  it "should delete the selected word" do
+    deck = mock_model(Deck)
+    Word.should_receive(:find_by_id).with(@word.id.to_s).and_return(@word)
+    @user.should_receive(:has_word).with(@word).and_return(true)
+    @word.stub!(:deck).and_return(deck)
+    @word.should_receive(:destroy)
+
+    get 'delete', :id => @word.id
+
+    response.should redirect_to(controller: 'decks', action: 'show', id: @word.deck.id)
+  end
+
   it "should retrieve word description" do
     controller.should_receive(:description).with('dog').and_return('text')
     get 'retrieve_word_description', str: 'dog'

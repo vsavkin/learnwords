@@ -1,4 +1,4 @@
-<div id="learnWordsBlock">
+<div id="<%= @word.is_important ? 'importantLearnWordsBlock' : 'learnWordsBlock'%>">
   <h2><%= @word.word %></h2>
 
   <div id="explanation">
