@@ -120,6 +120,11 @@ label {
     border: 1px solid gray;
 }
 
+#importance{
+    font-size: 9px;
+    font-weight: bold;
+}
+
 #deckStats{
     font-size: x-small;
     padding:10px;

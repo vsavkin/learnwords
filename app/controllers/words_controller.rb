@@ -4,8 +4,9 @@ require 'uri'
 class WordsController < ApplicationController
   before_filter :logging_required
 
-  def initialize(facade = OaldParser::Facade.create_facade)
-    @facade = facade
+  def initialize
+    @facade = OaldParser::Facade.create_facade
+    @important_words_dict = Lew::ImportantWordsDict.read_from_file
   end
 
   def edit
@@ -43,8 +44,21 @@ class WordsController < ApplicationController
     render nothing: true, status: 404
   end
 
+  def check_word_importance
+    if important? params[:str]
+      render text: 'IMPORTANT'
+    else
+      render nothing: true, status: 400  
+    end
+  end
+
   private
   def description(str)
     @facade.describe(str: str)
+  end
+
+  def important?(str)
+    word = OaldParser::WordExtractor.new.extract(str)
+    @important_words_dict.important_word? word
   end
 end

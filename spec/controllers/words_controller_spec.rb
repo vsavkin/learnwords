@@ -98,4 +98,10 @@ describe WordsController do
     get 'retrieve_word_description', str: 'dog'
     response.should_not be_success
   end
+
+  it "should return whether the word is important or not" do
+    controller.should_receive(:important?).with('dog').and_return(true)
+    get 'check_word_importance', str: 'dog'
+    response.should be_success
+  end
 end

@@ -13,6 +13,8 @@
       <div class="formBlock">
         Word
         <%= form.text_field :word, size: 40 %>
+        <span id="importance">
+        </span>
       </div>
 
       <div class="formBlock">
@@ -30,3 +32,6 @@
       <div class="formBlock"><%= submit_tag 'Submit', class: "submit" %></div>
   <% end %>
 </fieldset>
+
+<%= observe_field(:word_word, url: {action: 'check_word_importance'}, frequency: 1,
+    update: :importance, with: "'str=' + encodeURIComponent($('word_word').value)") %>
