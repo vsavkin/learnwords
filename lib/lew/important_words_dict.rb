@@ -12,7 +12,7 @@ module Lew
 
     def self.read_from_file(filename = 'list3000.txt')
       path = "#{File.dirname(__FILE__)}/#{filename}"
-      @words = File.open(path, "r").read.split("\n")
+      @words = File.open(path, "r", encoding: 'UTF-8').read.split("\n")
       ImportantWordsDict.new(@words)
     end
   end
