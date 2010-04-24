@@ -130,10 +130,12 @@ describe WordsController do
   it "should return similar words in the same deck" do
     deck = mock_model(Deck)
     Deck.should_receive(:find_by_id).with(deck.id).and_return(deck)
-    deck.should_receive(:similar_words).with('dog').and_return(['a dog', 'the dog'])
+    word = mock_model(Word)
+    word.stub!(:word).and_return('booms')
+    deck.should_receive(:similar_words).with('dog').and_return([word])
 
     get 'find_similar_words', str: 'dog', deck_id: deck.id
-    JSON.parse(response.body).should == ['a dog', 'the dog']
+    JSON.parse(response.body).should == [word.word]
   end
 
   it "should return empty array if there are no similar words in the same deck" do

@@ -121,12 +121,16 @@ label {
 }
 
 .smallLink {
-    font-size: 9px;    
+    font-size: 9px;
 }
 
 #importance{
     font-size: 9px;
     font-weight: bold;
+}
+
+#similarWords{
+    font-size: 9px;
 }
 
 #deckStats{
