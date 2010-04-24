@@ -63,6 +63,13 @@ class WordsController < ApplicationController
     end
   end
 
+  def find_similar_words
+    deck_id = params[:deck_id].to_i
+    deck = Deck.find_by_id(deck_id)
+    similar_words = deck.similar_words(params[:str])
+    render json: similar_words
+  end
+
   private
   def description(str)
     @facade.describe(str: str)

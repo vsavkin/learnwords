@@ -16,23 +16,14 @@ class Deck < ActiveRecord::Base
     Deck.new(attributes.merge(:is_active => true))
   end
 
-  def similar_words(word)
-    res = generate_all_combinations(word).inject([]) do |res, element|
-      w = words.find(:all, :conditions => ['word LIKE ?', "%#{element}%"])
-      res + w
-    end
-    res.uniq
+  def similar_words(str)
+    word = OaldParser::WordExtractor.new.extract(str)
+    words.find(:all, :conditions => ['word LIKE ?', "%#{word}%"])
   end
 
   def random_word
     w = words.show_by_now
     return nil if w.empty?
     w[rand(w.size)]
-  end
-
-  private
-  def generate_all_combinations(word)
-    parts = Word.normalize(word).split(' ')
-    [word] + parts.find_all{|m| m.size > 3}
   end
 end

@@ -2,20 +2,33 @@
 <%= javascript_include_tag :defaults %>
 
 <script>
-  function setDescription(request){
-      $('word_explanation').setValue(request.responseText);
-  }
+    function setDescription(request) {
+        $('word_explanation').setValue(request.responseText);
+    }
 
-  function updateImportantce(request){
-      response = request.responseText
-      if(response == 'true'){
+    function updateImportantce(request) {
+        response = request.responseText
+        if (response == 'true') {
             $('importance').innerHTML = 'IMPORTANT';
             $('word_is_important').setValue('t');
-      }else{
+        } else {
             $('importance').innerHTML = '';
             $('word_is_important').setValue('f');
-      }
-  }
+        }
+    }
+
+    function updateSimilarWords(request) {
+        similar_words = request.responseText.evalJSON();
+        if(similar_words.size() == 0){
+            $('similarWords').hide();
+        } else {
+            formatted_words = similar_words.map(function(el){return "'" + el + "'";}).join(',')
+            $('similarWords').innerHTML =
+                'You already have these words ' +
+                formatted_words + ' in your deck';
+            $('similarWords').show(); 
+        }
+    }
 </script>
 
 
@@ -28,6 +41,9 @@
         <span id="importance">
             
         </span>
+      </div>
+
+      <div id="similarWords">
       </div>
 
       <div class="formBlock">
@@ -50,3 +66,7 @@
 <%= observe_field(:word_word, url: {action: 'check_word_importance'}, frequency: 1,
     success: 'updateImportantce(request)',
     with: "'str=' + encodeURIComponent($('word_word').value)") %>
+
+<%= observe_field(:word_word, url: {action: 'find_similar_words'}, frequency: 3,
+    success: 'updateSimilarWords(request)',
+    with: "'str=' + encodeURIComponent($('word_word').value) + '&deck_id=#{@deck_id}'") %>
