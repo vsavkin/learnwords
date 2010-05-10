@@ -10,6 +10,8 @@
                             
             <% if deck.user != @current_user %>
                 <h4><%= link_to 'Copy Deck', action: 'copy_deck', id: deck.id %></h4>
+            <% else %>
+                <h4>&nbsp;</h4>
             <% end %>
         </div>
     <% end %>
