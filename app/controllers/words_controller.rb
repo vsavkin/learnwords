@@ -71,7 +71,7 @@ class WordsController < ApplicationController
   end
 
   def test
-    Net::HTTP.post_form(URI.parse("http://www.oup.com/oald-bin/web_getald7index1a.pl"), search_word: word)
+    Net::HTTP.post_form(URI.parse("http://www.oup.com/oald-bin/web_getald7index1a.pl"), search_word: 'dog')
   end
 
   private
