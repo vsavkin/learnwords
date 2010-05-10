@@ -7,7 +7,10 @@
             <h3><%= deck.name %></h3>
             <p>Created by <%= deck.user.login %></p>
             <p>There are <%= deck.words.size %> words</p>
-            <h4><%= link_to 'Copy Deck', action: 'copy_deck', id: deck.id %></h4>
+                            
+            <% if deck.user != @current_user %>
+                <h4><%= link_to 'Copy Deck', action: 'copy_deck', id: deck.id %></h4>
+            <% end %>
         </div>
     <% end %>
 <% else %>

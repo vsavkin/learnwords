@@ -2,6 +2,7 @@ class DecksController < ApplicationController
   before_filter :logging_required, :retrive_decks
 
   def list
+    @deck = Deck.new
   end
 
   def show

@@ -6,6 +6,8 @@ class User < ActiveRecord::Base
 
   def copy(deck)
     raise "Can't copy private decks" if deck.is_private
+    raise "Can't copy your own deck" if deck.user == self
+    
     new_deck = decks.create(deck.fresh_copy.attributes)
     deck.words.each do |w|
       new_deck.words.create(w.fresh_copy.attributes)

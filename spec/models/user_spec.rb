@@ -43,6 +43,8 @@ describe User do
 
     user2.copy(deck)
 
+    user2.decks.first.is_private.should be_true 
+
     first_word_for(user1).status.should == 'normal'
     (first_word_for(user1).show_at >= Time.zone.now + 3.day - 1.second).should be_true
 
@@ -51,11 +53,17 @@ describe User do
   end
 
   it "shouldn't copy a private deck from another user" do
-    user1 = User.create(@valid_attributes.merge(:login => 'aaa'))
-    user2 = User.create(@valid_attributes.merge(:login => 'bbb'))
+    user1 = User.create(@valid_attributes.merge(login: 'aaa'))
+    user2 = User.create(@valid_attributes.merge(login: 'bbb'))
 
-    deck = user1.decks.create(:name => 'SuperDeck', :is_private => true)
+    deck = user1.decks.create(name: 'SuperDeck', is_private: true)
     lambda {user2.copy(deck)}.should raise_error(Exception)
+  end
+
+  it "shouldn't copy a deck from the same user" do
+    user = User.create(@valid_attributes.merge(login: 'aaa'))
+    deck = user.decks.create(name: 'SuperDeck', is_private: false)
+    lambda {user.copy(deck)}.should raise_error(Exception)
   end
 
   it 'should be able to create and find decks using sugar methods' do

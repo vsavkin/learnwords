@@ -15,12 +15,12 @@ class Deck < ActiveRecord::Base
   end
 
   def fresh_copy
-    Deck.new(attributes.merge(:is_active => true))
+    Deck.new(attributes.merge(is_active: true, is_private: true))
   end
 
   def similar_words(str)
     word = OaldParser::WordExtractor.new.extract(str)
-    words.find(:all, :conditions => ['word LIKE ?', "%#{word}%"])
+    words.find(:all, conditions: ['word LIKE ?', "%#{word}%"])
   end
 
   def random_word
