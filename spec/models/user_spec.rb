@@ -35,11 +35,11 @@ describe User do
   end
 
   it "should copy a public deck from another user" do
-    user1 = User.create(@valid_attributes.merge(:login => 'aaa'))
-    user2 = User.create(@valid_attributes.merge(:login => 'bbb'))
+    user1 = User.create(@valid_attributes.merge(login: 'aaa'))
+    user2 = User.create(@valid_attributes.merge(login: 'bbb'))
 
-    deck = user1.decks.create(:name => 'SuperDeck')
-    deck.words.create(:word => 'word', :explanation => 'word', :status => 'normal', :show_at => Time.zone.now + 3.day)
+    deck = user1.decks.create(name: 'SuperDeck', is_private: false)
+    deck.words.create(word: 'word', explanation: 'word', status: 'normal', show_at: Time.zone.now + 3.day)
 
     user2.copy(deck)
 

@@ -5,7 +5,7 @@ class DecksController < ApplicationController
   end
 
   def show
-    @deck = @current_user.find_deck(params[:id].to_i)
+    @deck = current_user.find_deck(params[:id].to_i)
     if !@deck
       flash[:error] = 'There is no deck with such ID'
       redirect_to controller: 'main', action: 'index'
@@ -13,7 +13,7 @@ class DecksController < ApplicationController
   end
 
   def create
-    @deck = @current_user.create_deck(params[:deck])
+    @deck = current_user.create_deck(params[:deck])
     if @deck.save
       redirect_to controller: 'decks', action: 'show', id: @deck.id
     else
@@ -22,7 +22,7 @@ class DecksController < ApplicationController
   end
 
   def edit
-    @deck = @current_user.find_deck(params[:id].to_i)
+    @deck = current_user.find_deck(params[:id].to_i)
     if @deck
       if @deck.update_attributes(params[:deck])
         render action: 'show'
@@ -36,14 +36,14 @@ class DecksController < ApplicationController
   end
 
   def delete
-    deck = @current_user.find_deck(params[:id].to_i)
-    @current_user.delete_deck(deck)
+    deck = current_user.find_deck(params[:id].to_i)
+    current_user.delete_deck(deck)
     flash[:message] = "Your deck '#{deck.name}' is successfully deleted"
     redirect_to controller: 'decks', action: 'list'
   end
 
   private
   def retrive_decks
-    @decks = @current_user.decks(true)
+    @decks = current_user.decks(true)
   end
 end

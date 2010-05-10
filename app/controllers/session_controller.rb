@@ -10,9 +10,9 @@ class SessionController < ApplicationController
 
   def login
     if request.post?
-      @current_user = User.find_by_login_and_password(params[:login], params[:password])
-      if @current_user
-        session[:user_id] = @current_user.id
+      current_user = User.find_by_login_and_password(params[:login], params[:password])
+      if current_user
+        session[:user_id] = current_user.id
         if session[:return_to]
           redirect_to session[:return_to]
           session[:return_to] = nil

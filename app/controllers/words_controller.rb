@@ -11,7 +11,7 @@ class WordsController < ApplicationController
 
   def edit
     @word = Word.find_by_id(params[:id])
-    if !@word || !@current_user.has_word(@word)
+    if !@word || !current_user.has_word(@word)
       flash[:error] = 'There is no such word'
       render template: 'words/close', layout: false
       return
@@ -26,7 +26,7 @@ class WordsController < ApplicationController
 
   def delete
     word = Word.find_by_id(params[:id])
-    if !word || !@current_user.has_word(word)
+    if !word || !current_user.has_word(word)
       flash[:error] = 'There is no such word'
       redirect_to controller: 'main', action: 'index'
     else
@@ -68,6 +68,10 @@ class WordsController < ApplicationController
     deck = Deck.find_by_id(deck_id)
     similar_words = deck.similar_words(params[:str]).map{|w| w.word}
     render json: similar_words
+  end
+
+  def test
+    Net::HTTP.post_form(URI.parse("http://www.oup.com/oald-bin/web_getald7index1a.pl"), search_word: word)
   end
 
   private

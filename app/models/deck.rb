@@ -3,13 +3,15 @@ class Deck < ActiveRecord::Base
   belongs_to :user
   validates_length_of :name, :minimum => 1
 
+  named_scope :all_public, {conditions: ['is_private = ?', false]}
+
   def create_word(args)
     words.create(args)
   end
 
   def move_word_to(word, deck)
     word.destroy
-    deck.words.create#(word.attributes)
+    deck.words.create(word.attributes)
   end
 
   def fresh_copy

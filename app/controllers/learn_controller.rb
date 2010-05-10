@@ -1,6 +1,6 @@
 class LearnController < ApplicationController
   def show_word
-    @deck = @current_user.find_deck(params[:deck_id])
+    @deck = current_user.find_deck(params[:deck_id])
     if @deck.nil?
       flash[:error] = 'There is no deck with such ID'
       redirect_to controller: 'main', action: 'index'
@@ -16,7 +16,7 @@ class LearnController < ApplicationController
 
   def answer
     @word = Word.find_by_id(params[:id])
-    unless @word && @current_user.has_word(@word)
+    unless @word && current_user.has_word(@word)
       flash[:error] = 'There is no word with such ID'
       redirect_to controller: 'main', action: 'index'
     else
@@ -27,7 +27,7 @@ class LearnController < ApplicationController
 
   def update_status
     word = Word.find_by_id(params[:word_id])
-    if @current_user.has_word(word)
+    if current_user.has_word(word)
       word.update_status(params[:status])
       redirect_to action: 'show_word', deck_id: word.deck.id
     else

@@ -13,7 +13,7 @@ describe Deck do
 
   it "should create a new instance given valid attributes" do
     deck = Deck.create!(@valid_attributes)
-    deck.is_private.should == false
+    deck.is_private.should == true
     deck.is_active.should == true
   end
 
