@@ -199,3 +199,14 @@ label {
 #publicDeckItem {
     
 }
+
+.wordExample {
+    font-style: italic;
+    font-size: smaller;
+    color: darkslategray;
+}
+
+.wordType {
+    font-size: smaller;
+    font-weight: bold;
+}

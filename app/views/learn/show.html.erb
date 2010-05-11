@@ -3,7 +3,7 @@
 
   <div id="explanation">
     <% if @with_answer %>
-        <%= @word.explanation.gsub("\n", "<br>") %>
+        <%= format_explanation(@word.word, @word.explanation) %>
     <% else %>
         ...
     <% end %>
