@@ -11,6 +11,7 @@ class DecksController < ApplicationController
       flash[:error] = 'There is no deck with such ID'
       redirect_to controller: 'main', action: 'index'
     end
+    @other_decks = current_user.decks - [@deck]
   end
 
   def create

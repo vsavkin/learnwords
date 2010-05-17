@@ -90,7 +90,7 @@ describe WordsController do
     Word.should_receive(:find_by_id).with(@word.id.to_s).and_return(@word)
     @user.should_receive(:has_word).with(@word).and_return(false)
 
-    get 'delete', :id => @word.id
+    get 'delete', id: @word.id
 
     flash[:error].should == 'There is no such word'
     response.should redirect_to(controller: 'main', action: 'index')
@@ -103,9 +103,44 @@ describe WordsController do
     @word.stub!(:deck).and_return(deck)
     @word.should_receive(:destroy)
 
-    get 'delete', :id => @word.id
+    get 'delete', id: @word.id
 
     response.should redirect_to(controller: 'decks', action: 'show', id: @word.deck.id)
+  end
+
+  it "should show the error message if one of the words doesn't belong to the current user" do
+    word1, word2 = mock_model(Word), mock_model(Word)
+    Word.should_receive(:find_by_id).with(word1.id).and_return(word1)
+    Word.should_receive(:find_by_id).with(word2.id).and_return(word2)
+    @user.should_receive(:has_word).with(word1).and_return(true)
+    @user.should_receive(:has_word).with(word2).and_return(false)
+
+    get 'delete_all', id: [word1.id, word2.id]
+
+    flash[:error].should_not be_nil
+    response.should redirect_to(controller: 'main', action: 'index')
+  end
+
+  it "should redirect to the main page if the list of ids for deleting is empty" do
+    get 'delete_all', id: []
+    response.should redirect_to(controller: 'main', action: 'index')
+  end
+
+  it "should delete all the selected words" do
+    deck = mock_model(Deck)
+    word1, word2 = mock_model(Word), mock_model(Word)
+    word1.stub!(:deck).and_return(deck)
+    word2.stub!(:deck).and_return(deck)
+    Word.should_receive(:find_by_id).with(word1.id).and_return(word1)
+    Word.should_receive(:find_by_id).with(word2.id).and_return(word2)
+    @user.should_receive(:has_word).with(word1).and_return(true)
+    @user.should_receive(:has_word).with(word2).and_return(true)
+    word1.should_receive(:destroy)
+    word2.should_receive(:destroy)
+
+    get 'delete_all', id: [word1.id, word2.id]
+
+    response.should redirect_to(controller: 'decks', action: 'show', id: word1.deck.id)
   end
 
   it "should retrieve word description" do

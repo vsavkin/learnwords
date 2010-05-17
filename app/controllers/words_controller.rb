@@ -31,8 +31,30 @@ class WordsController < ApplicationController
       redirect_to controller: 'main', action: 'index'
     else
       word.destroy
-      redirect_to controller: 'decks', action: 'show', id: word.deck.id 
+      redirect_to controller: 'decks', action: 'show', id: word.deck.id
     end
+  end
+
+  def delete_all
+    words = params[:id].collect{|id| Word.find_by_id(id)}
+    if words.empty?
+      redirect_to controller: 'main', action: 'index'
+      return
+    end
+
+    if strange_word = words.find{|w| !current_user.has_word w}
+      flash[:error] = "There is no such word #{strange_word.id}"
+      redirect_to controller: 'main', action: 'index'
+    else
+      deck = words[0].deck
+      words.each{|w| w.destroy}
+      redirect_to controller: 'decks', action: 'show', id: deck.id 
+    end
+  end
+
+  def move_word
+    params[:id]
+    params[:deck_id]
   end
 
   def create

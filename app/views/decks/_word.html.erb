@@ -1,9 +1,10 @@
 <div class="word<%= is_even ? 'Even' : 'Odd' %>">
+  <%= check_box_tag 'word_ids[]', word.id, false, class: 'word_checkbox' %>
   <%= popup_window word.word, 'Edit Word',
                    url_for(action: "edit", controller: 'words', id: word.id) %>
 
   <span class="wordStatus">(<%= repeat_date_output(word.show_at) %>)</span>
   <span class="smallLink">
   <%= link_to 'Delete', {controller: 'words', action: 'delete', id: word.id}, {confirm: 'Are you sure?'} %>
-  </span>    
+  </span>
 </div>

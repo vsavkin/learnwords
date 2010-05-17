@@ -46,11 +46,14 @@ describe DecksController do
 
   it "should show a deck" do
     deck = mock_model(Deck)
+    another_deck = mock_model(Deck)
     @user.should_receive(:find_deck).with(deck.id).and_return(deck)
+    @user.stub!(:decks).and_return([deck, another_deck])
     get 'show', :id => deck.id
 
     response.should render_template('decks/show')
     assigns[:deck].should == deck
+    assigns[:other_decks].should == [another_deck]
   end
 
   it "should show a deck list with error message if there is no such deck" do

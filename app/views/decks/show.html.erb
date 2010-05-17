@@ -1,3 +1,23 @@
+<script type="text/javascript">
+  function selectAllCheckboxes(){
+    $$('.word_checkbox').each(function(e){ e.checked = 1});
+  }
+
+  function deleteSelected(){
+    if(confirm('Are you sure?')){
+        var ids = $$('.word_checkbox').findAll(function(e){ return e.checked == 1})
+                .collect(function(e){return 'id[]=' + e.value});
+        var url = '<%=url_for(action: "delete_all", controller: 'words')%>' + '?' + ids.join('&');
+        document.location.href = url;
+    }
+  }
+
+  document.observe('dom:loaded' , function() {
+    $('selectAllLink').observe('click', selectAllCheckboxes);
+    $('deleteSelectedLink').observe('click', deleteSelected);
+  });
+</script>
+
 <fieldset>
   <legend>Edit Deck <strong>'<%= @deck.name %>'</strong></legend>
   <%= error_messages_for 'deck' %>
@@ -40,6 +60,9 @@
     <div id="deckStats">
       The are <%= @deck.words.size %> words in this deck. There are <%= @deck.words.learnt.size %> learnt words.
     </div>
+    <a href="#" id="selectAllLink">Select All</a>
+    <a href="#" id="deleteSelectedLink">Delete Selected</a>
+    <a href="#" id="moveSelectedLink">Move Selected</a>
     <% for word in @deck.words %>
         <% is_even = is_even ? false : true %>
         <%= render partial: 'word', locals: {word: word, is_even: is_even} %>
