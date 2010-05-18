@@ -72,8 +72,14 @@ class WordsController < ApplicationController
   end
 
   def retrieve_word_description
-    render text: description(params[:str])
+    desciption = description(params[:str])
+    unless desciption.empty?
+      render text: desciption
+    else
+      render nothing: true, status: 404
+    end
   rescue Exception => e
+    puts e.message
     render nothing: true, status: 404
   end
 

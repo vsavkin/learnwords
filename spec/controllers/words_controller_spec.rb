@@ -156,6 +156,12 @@ describe WordsController do
     response.should_not be_success
   end
 
+  it "should return error code if a word description is empty" do
+    controller.should_receive(:description).with('dog').and_return('')
+    get 'retrieve_word_description', str: 'dog'
+    response.should_not be_success
+  end
+
   it "should return whether the word is important or not" do
     controller.should_receive(:important?).with('dog').and_return(true)
     get 'check_word_importance', str: 'dog'

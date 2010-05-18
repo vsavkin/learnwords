@@ -9,7 +9,7 @@ class LearnController < ApplicationController
       if @word
         render template: 'learn/show'
       else
-        render template: 'learn/all_learnt'
+        render template: 'learn/all_repeated'
       end
     end
   end

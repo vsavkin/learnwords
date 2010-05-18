@@ -32,7 +32,7 @@ describe LearnController do
     response.should render_template('learn/show')
   end
 
-  it "should show special page if you have learnt all words" do
+  it "should show special page if you have repeated all words" do
     @user.should_receive(:find_deck).with(@deck.id.to_s).and_return(@deck)
     @deck.should_receive(:random_word).and_return(nil)
 
@@ -40,7 +40,7 @@ describe LearnController do
 
     assigns[:deck].should == @deck
     assigns[:word].should == nil
-    response.should render_template('learn/all_learnt')
+    response.should render_template('learn/all_repeated')
   end
 
   it "should show a word with its explanation" do

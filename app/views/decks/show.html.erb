@@ -62,7 +62,6 @@
     </div>
     <a href="#" id="selectAllLink">Select All</a>
     <a href="#" id="deleteSelectedLink">Delete Selected</a>
-    <a href="#" id="moveSelectedLink">Move Selected</a>
     <% for word in @deck.words %>
         <% is_even = is_even ? false : true %>
         <%= render partial: 'word', locals: {word: word, is_even: is_even} %>

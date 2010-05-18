@@ -9,7 +9,7 @@ describe LearnHelper do
 
   it "should wrap special sequences" do
     formatted = helper.format_explanation('', "[countable]one")
-    formatted.should == "<span class='wordType'>[countable]</span>one"
+    formatted.should == "<span class='wordNote'>[countable]</span>one"
   end
 
   it "should show only first 12 lines" do
