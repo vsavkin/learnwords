@@ -8,8 +8,13 @@ describe LearnHelper do
   end
 
   it "should wrap special sequences" do
-    formatted = helper.format_explanation('', "[countable]one")
-    formatted.should == "<span class='wordNote'>[countable]</span>one"
+    formatted = helper.format_explanation('', "[countable,important]one")
+    formatted.should == "<span class='wordNote'>[countable,important]</span>one"
+  end
+
+  it "should wrap special words" do
+    formatted = helper.format_explanation('', "this is a noun or a verb but nounorverb")
+    formatted.should == "this is a<span class='wordNote'> noun </span>or a<span class='wordNote'> verb </span>but nounorverb"
   end
 
   it "should show only first 12 lines" do
