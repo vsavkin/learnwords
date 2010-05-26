@@ -1,7 +1,6 @@
 module LearnHelper
   def format_explanation(word, text)
     text = wrap_square_braces(text)
-    text = wrap_special_words(text)
     lines = lines(text)
     lines = wrap_example_lines(lines)
     lines[0...12].join("<br>")
@@ -10,10 +9,6 @@ module LearnHelper
   private
   def wrap_square_braces(text)
     text.gsub(/\[[^\]]+\]/) { |e| "<span class='wordNote'>#{e}</span>" }
-  end
-
-  def wrap_special_words(text)
-    text.gsub(/[^\w]+(noun|verb)[^\w]+/) { |e| "<span class='wordNote'>#{e}</span>" }
   end
 
   def wrap_example_lines(lines)
