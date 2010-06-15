@@ -12,6 +12,15 @@ require 'spec/rails'
 # in ./support/ and its subdirectories.
 Dir[File.expand_path(File.join(File.dirname(__FILE__),'support','**','*.rb'))].each {|f| require f}
 
+module MockHelper
+  def model_with_finder(clazz)
+    mock = mock_model(clazz)
+    clazz.stub(:find_by_id).with(mock.id).and_return(mock)
+    clazz.stub(:find_by_id).with(mock.id.to_s).and_return(mock)
+    mock
+  end
+end
+
 Spec::Runner.configure do |config|
   # If you're not using ActiveRecord you should remove these
   # lines, delete config/database.yml and disable :active_record

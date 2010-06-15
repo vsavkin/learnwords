@@ -10,6 +10,7 @@ class Deck < ActiveRecord::Base
   end
 
   def move_word_to(word, deck)
+    raise "The word #{word.id} does't belong to the deck #{id}" unless word.deck_id == id
     word.destroy
     deck.words.create(word.attributes)
   end

@@ -2,3 +2,4 @@
 log
 vendor
 *.sqlite3
+nbproject

@@ -147,7 +147,7 @@ label {
     width: 250px;
     padding: 10px;
     font-size: larger;
-    background-color: lightgreen;
+    background-color: palegreen;
 }
 
 #learnWordsBlock {
@@ -197,7 +197,7 @@ label {
 }
 
 #publicDeckItem {
-    
+
 }
 
 .wordExample {
@@ -209,4 +209,15 @@ label {
 .wordNote {
     font-size: smaller;
     font-weight: bold;
+}
+
+#deckActions {
+	padding: 5px;
+	border: 1px solid gray;
+	background-color: palegreen;
+}
+
+#deckActions span {
+	border-right: 1px solid gray;
+	padding: 5px 15px;
 }

@@ -52,9 +52,22 @@ class WordsController < ApplicationController
     end
   end
 
-  def move_word
-    params[:id]
-    params[:deck_id]
+  def move_all
+    dest_deck = @current_user.find_deck(params[:dest_deck_id].to_i)
+    src_deck = @current_user.find_deck(params[:src_deck_id].to_i)
+
+    if dest_deck.nil? || src_deck.nil?
+      flash[:error] = "There is no deck with such id"
+      redirect_to controller: 'main', action: 'index'
+      return
+    end
+
+    words = params[:id].collect{|id| Word.find_by_id(id)}
+    words.each do |word|
+      src_deck.move_word_to(word, dest_deck)
+    end
+    
+    redirect_to controller: 'decks', action: 'show', id: src_deck.id
   end
 
   def create

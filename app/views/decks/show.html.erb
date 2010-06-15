@@ -5,16 +5,40 @@
 
   function deleteSelected(){
     if(confirm('Are you sure?')){
-        var ids = $$('.word_checkbox').findAll(function(e){ return e.checked == 1})
-                .collect(function(e){return 'id[]=' + e.value});
-        var url = '<%=url_for(action: "delete_all", controller: 'words')%>' + '?' + ids.join('&');
-        document.location.href = url;
+      var ids = $$('.word_checkbox').findAll(function(e){ return e.checked == 1})
+      .collect(function(e){return 'id[]=' + e.value});
+      var url = '<%=url_for(action: "delete_all", controller: 'words')%>' + '?' + ids.join('&');
+      document.location.href = url;
+    }
+  }
+
+  function moveSelected(){
+    if(confirm('Are you sure?')){
+      var ids = $$('.word_checkbox').findAll(function(e){ return e.checked == 1})
+      .collect(function(e){return 'id[]=' + e.value});
+      var selected = $$('#otherDecks option').find(function(ele){return !!ele.selected});
+      var url = '<%=url_for(action: "move_all", controller: 'words')%>' + '?' + ids.join('&')
+        + "&dest_deck_id=" + selected.value + "&src_deck_id=" + <%= @deck.id %>;
+      document.location.href = url;
+    }
+  }
+
+  function initOtherDecks(){
+    var otherDecks = <%= ! @other_decks.empty?  %>;
+    if(otherDecks){
+      var options = "<%=  @other_decks.collect{|d| "<option value='#{d.id}'>#{d.name}</option>"}.join('') %>";
+      $("otherDecks").update(options);
+    }else{
+      $("otherDecks").hide();
+      $("moveSelectedLink").hide();
     }
   }
 
   document.observe('dom:loaded' , function() {
+    initOtherDecks();
     $('selectAllLink').observe('click', selectAllCheckboxes);
     $('deleteSelectedLink').observe('click', deleteSelected);
+    $('moveSelectedLink').observe('click', moveSelected);
   });
 </script>
 
@@ -22,48 +46,57 @@
   <legend>Edit Deck <strong>'<%= @deck.name %>'</strong></legend>
   <%= error_messages_for 'deck' %>
   <% form_for :deck, url: {action: 'edit', id: @deck.id} do |form| %>
-      <div class="formBlock">
-        <label for="deck_name">Name</label>
-        <%= form.text_field :name, :size => 40 %>
-      </div>
+    <div class="formBlock">
+      <label for="deck_name">Name</label>
+      <%= form.text_field :name, :size => 40 %>
+    </div>
 
-      <div class="formBlock">
-        <label for="deck_is_private">Private</label>
-        <%= form.check_box :is_private %>
-      </div>
+    <div class="formBlock">
+      <label for="deck_is_private">Private</label>
+      <%= form.check_box :is_private %>
+    </div>
 
-      <div class="formBlock">
-        <label for="deck_is_active">Active</label>
-        <%= form.check_box :is_active %>
-      </div>
+    <div class="formBlock">
+      <label for="deck_is_active">Active</label>
+      <%= form.check_box :is_active %>
+    </div>
 
-      <div class="formBlock">
-        <%= submit_tag 'Save Changes', class: "submit" %>
+    <div class="formBlock">
+      <%= submit_tag 'Save Changes', class: "submit" %>
         <%= link_to 'Delete', {controller: 'decks', action: 'delete', id: @deck.id}, {confirm: 'Are you sure?'} %>
       </div>
-  <% end %>
-</fieldset>
+    <% end %>
+  </fieldset>
 
-<div class="button">
+  <div class="button">
     <%= popup_window 'Create a New Word', 'Create a Word',
-                       url_for(action: "create", controller: 'words', deck_id: @deck.id) %>
-</div>
+      url_for(action: "create", controller: 'words', deck_id: @deck.id) %>
+  </div>
 
-<div class="button">
+  <div class="button">
     <%= link_to 'Learn Words', :controller => 'learn', :action => 'show_word', :deck_id => @deck.id %>
-</div>
-<div style="clear:both;"></div>
+  </div>
+  <div style="clear:both;"></div>
 
-<% if @deck.words.empty? %>
+  <% if @deck.words.empty? %>
+
     <h2>The deck is empty</h2>
-<% else %>
+
+  <% else %>
+
     <div id="deckStats">
       The are <%= @deck.words.size %> words in this deck. There are <%= @deck.words.learnt.size %> learnt words.
     </div>
-    <a href="#" id="selectAllLink">Select All</a>
-    <a href="#" id="deleteSelectedLink">Delete Selected</a>
+
+    <div id="deckActions">
+      <span><a href="#" id="selectAllLink">Select All</a></span>
+      <span><a href="#" id="deleteSelectedLink"> Delete Selected</a></span>
+      <span><a href="#" id="moveSelectedLink"> Move Selected To </a>
+      <select id="otherDecks"></select></span>
+    </div>
+
     <% for word in @deck.words %>
-        <% is_even = is_even ? false : true %>
-        <%= render partial: 'word', locals: {word: word, is_even: is_even} %>
+      <% is_even = is_even ? false : true %>
+      <%= render partial: 'word', locals: {word: word, is_even: is_even} %>
     <% end %>
-<% end %>
+  <% end %>

@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe WordsController do
+  include MockHelper
 
   before(:each) do
     @user = mock_model(User)
@@ -186,5 +187,41 @@ describe WordsController do
 
     get 'find_similar_words', str: 'dog', deck_id: deck.id
     JSON.parse(response.body).should == []
+  end
+
+  it "should move all the words from one deck into another" do
+    src_deck, dest_deck = mock_model(Deck), mock_model(Deck)
+    @user.should_receive(:find_deck).with(src_deck.id).and_return(src_deck)
+    @user.should_receive(:find_deck).with(dest_deck.id).and_return(dest_deck)
+    word1, word2 = model_with_finder(Word), model_with_finder(Word)
+
+    src_deck.should_receive(:move_word_to).with(word1, dest_deck)
+    src_deck.should_receive(:move_word_to).with(word2, dest_deck)
+
+    get 'move_all', id: [word1.id, word2.id], src_deck_id: src_deck.id, dest_deck_id: dest_deck.id
+    
+    flash[:error].should be_nil
+  end
+
+  it "should show an error message if the src deck doens't belong to a current user" do
+    src_deck, dest_deck = mock_model(Deck), mock_model(Deck)
+    @user.should_receive(:find_deck).with(src_deck.id).and_return(nil)
+    @user.should_receive(:find_deck).with(dest_deck.id).and_return(dest_deck)
+
+    get 'move_all', id: [], src_deck_id: src_deck.id, dest_deck_id: dest_deck.id
+
+    flash[:error].should_not be_nil
+    response.should redirect_to(controller: 'main', action: 'index')
+  end
+
+  it "should show an error message if the dest deck doens't belong to a current user" do
+    src_deck, dest_deck = mock_model(Deck), mock_model(Deck)
+    @user.should_receive(:find_deck).with(src_deck.id).and_return(src_deck)
+    @user.should_receive(:find_deck).with(dest_deck.id).and_return(nil)
+
+    get 'move_all', id: [], src_deck_id: src_deck.id, dest_deck_id: dest_deck.id
+
+    flash[:error].should_not be_nil
+    response.should redirect_to(controller: 'main', action: 'index')
   end
 end

@@ -45,6 +45,13 @@ describe Deck do
     deck2.words.size.should == 1
   end
 
+  it "should raise an exception if the word you try to move doesn't belong to the current deck" do
+    deck1 = Deck.create(@valid_attributes.merge(name: 'aaa'))
+    deck2 = Deck.create(@valid_attributes.merge(name: 'bbb'))
+    w = deck1.words.create!(@word_valid_attributes)
+    lambda{deck2.move_word_to(w, deck1)}.should raise_error(Exception)
+  end
+
   it 'should return similar words from deck' do
     deck = Deck.create(@valid_attributes)
     deck.words.create(@word_valid_attributes.merge(word: 'gogo to'))
