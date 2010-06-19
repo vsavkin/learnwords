@@ -13,14 +13,14 @@ class WordsController < ApplicationController
     @word = Word.find_by_id(params[:id])
     if !@word || !current_user.has_word(@word)
       flash[:error] = 'There is no such word'
-      render template: 'words/close', layout: false
+      render(template: 'words/close', layout: false)
       return
     end
 
     if request.post? && @word.update_attributes(params[:word])
-      render template: 'words/close', layout: false
+      render(template: 'words/close', layout: false)
     else
-      render template: 'words/word', layout: false
+      render(template: 'words/word', layout: false)
     end
   end
 
@@ -28,27 +28,27 @@ class WordsController < ApplicationController
     word = Word.find_by_id(params[:id])
     if !word || !current_user.has_word(word)
       flash[:error] = 'There is no such word'
-      redirect_to controller: 'main', action: 'index'
+      redirect_to(controller: 'main', action: 'index')
     else
       word.destroy
-      redirect_to controller: 'decks', action: 'show', id: word.deck.id
+      redirect_to(controller: 'decks', action: 'show', id: word.deck.id)
     end
   end
 
   def delete_all
     words = params[:id].collect{|id| Word.find_by_id(id)}
     if words.empty?
-      redirect_to controller: 'main', action: 'index'
+      redirect_to(controller: 'main', action: 'index')
       return
     end
 
     if strange_word = words.find{|w| !current_user.has_word w}
       flash[:error] = "There is no such word #{strange_word.id}"
-      redirect_to controller: 'main', action: 'index'
+      redirect_to(controller: 'main', action: 'index')
     else
       deck = words[0].deck
       words.each{|w| w.destroy}
-      redirect_to controller: 'decks', action: 'show', id: deck.id 
+      redirect_to(controller: 'decks', action: 'show', id: deck.id)
     end
   end
 
@@ -58,7 +58,7 @@ class WordsController < ApplicationController
 
     if dest_deck.nil? || src_deck.nil?
       flash[:error] = "There is no deck with such id"
-      redirect_to controller: 'main', action: 'index'
+      redirect_to(controller: 'main', action: 'index')
       return
     end
 
@@ -67,7 +67,7 @@ class WordsController < ApplicationController
       src_deck.move_word_to(word, dest_deck)
     end
     
-    redirect_to controller: 'decks', action: 'show', id: src_deck.id
+    redirect_to(controller: 'decks', action: 'show', id: src_deck.id)
   end
 
   def create
@@ -77,30 +77,30 @@ class WordsController < ApplicationController
       @word = deck.create_word(params[:word])
       @word.show_at = Time.zone.now   
       if @word.save
-        render template: 'words/close', layout: false
+        render(template: 'words/close', layout: false)
         return
       end
     end
-    render template: 'words/word', layout: false
+    render(template: 'words/word', layout: false)
   end
 
   def retrieve_word_description
-    desciption = description(params[:str])
-    unless desciption.empty?
-      render text: desciption
+    description = description(params[:str])
+    unless description.empty?
+      render(text: description)
     else
-      render nothing: true, status: 404
+      render(nothing: true, status: 404)
     end
   rescue Exception => e
     puts e.message
-    render nothing: true, status: 404
+    render(nothing: true, status: 404)
   end
 
   def check_word_importance
     if important? params[:str]
-      render text: 'true'
+      render(text: 'true')
     else
-      render text: 'false'
+      render(text: 'false')
     end
   end
 
@@ -108,7 +108,7 @@ class WordsController < ApplicationController
     deck_id = params[:deck_id].to_i
     deck = Deck.find_by_id(deck_id)
     similar_words = deck.similar_words(params[:str]).map{|w| w.word}
-    render json: similar_words
+    render(json: similar_words)
   end
 
   def test

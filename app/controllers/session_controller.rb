@@ -4,7 +4,7 @@ class SessionController < ApplicationController
     if request.post? and @user.save
       flash[:message] = 'You are successfully registered'
       session[:user_id] = @user.id
-      redirect_to :controller => 'decks', :action => 'list'
+      redirect_to(controller: 'decks', action: 'list')
     end
   end
 
@@ -17,7 +17,7 @@ class SessionController < ApplicationController
           redirect_to session[:return_to]
           session[:return_to] = nil
         else
-          redirect_to :controller => 'decks', :action => 'list'
+          redirect_to(controller: 'decks', action: 'list')
         end
       else
         flash[:error] = 'The login/password pair is invalid'

@@ -9,6 +9,6 @@ class ShareController < ApplicationController
     deck = Deck.find_by_id(params[:id])
     current_user.copy(deck)
     flash[:message] = "Deck is successfuly copied"
-    redirect_to action: 'list_public_decks'
+    redirect_to(action: 'list_public_decks')
   end
 end

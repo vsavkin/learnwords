@@ -23,7 +23,7 @@ describe DecksController do
   it "should redirect a user to the login page is he is not logged in" do
     session[:user_id] = nil
     get 'list'
-    response.should redirect_to(:controller => 'session', :action => 'login')
+    response.should redirect_to(controller: 'session', action: 'login')
   end
 
   it "should create a new deck for the logged user" do
@@ -32,7 +32,7 @@ describe DecksController do
     @user.should_receive(:create_deck).with(@valid_deck_attributes).and_return(deck)
 
     post 'create', :deck => @valid_deck_attributes
-    response.should redirect_to(:controller => 'decks', :action => 'show', :id => deck.id)
+    response.should redirect_to(controller: 'decks', action: 'show', id: deck.id)
   end
 
   it "should show the error message if the deck attributes are not valid" do
@@ -60,7 +60,7 @@ describe DecksController do
     @user.should_receive(:find_deck).with(100).and_return(nil)
     get 'show', :id => 100
 
-    response.should redirect_to(:controller => 'main', :action => 'index')
+    response.should redirect_to(controller: 'main', action: 'index')
     flash[:error].should == 'There is no deck with such ID'
   end
 
@@ -70,7 +70,7 @@ describe DecksController do
     @user.should_receive(:find_deck).with(deck.id).and_return(deck)
 
     post 'edit', :id => deck.id, :deck => @valid_deck_attributes
-    response.should render_template('decks/show')
+    response.should redirect_to(controller: 'decks', action: 'show', id: deck.id)
   end
 
   it "should be able to delete user's deck" do
@@ -81,7 +81,7 @@ describe DecksController do
 
     post 'delete', :id => deck.id
     flash[:message].should == "Your deck 'name' is successfully deleted"
-    response.should redirect_to(:controller => 'decks', :action => 'list')
+    response.should redirect_to(controller: 'decks', action: 'list')
   end
 
 end

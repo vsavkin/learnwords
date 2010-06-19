@@ -221,3 +221,7 @@ label {
 	border-right: 1px solid gray;
 	padding: 5px 15px;
 }
+
+#deckFilter {
+    font-size: 9px;
+}
