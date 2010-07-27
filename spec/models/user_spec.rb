@@ -113,7 +113,24 @@ describe User do
 
     lambda{user2.delete_deck(deck)}.should raise_error(Exception)
   end
-
+  
+  it "should return n random words" do
+    user = User.create!(@valid_attributes)
+    deck = user.decks.create!(:name => 'SuperDeck')
+    deck.words.create!(@word_valid_attributes.merge(word: 'a'))
+    deck.words.create!(@word_valid_attributes.merge(word: 'b'))
+    deck.words.create!(@word_valid_attributes.merge(word: 'c'))
+    words = user.random_words(2)
+    words.each do |word|
+      ['a','b','c'].should be_include(word.word)   
+    end
+  end
+  
+  it "user without decks always returns 0 random words" do
+    user = User.create!(@valid_attributes)
+    user.random_words(100).size.should == 0
+  end 
+     
   private
   def first_word_for(user)
     user.decks(true)[0].words[0]

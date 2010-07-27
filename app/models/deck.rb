@@ -4,7 +4,7 @@ class Deck < ActiveRecord::Base
   validates_length_of :name, :minimum => 1
 
   named_scope :all_public, {conditions: ['is_private = ?', false]}
-
+  
   def create_word(args)
     words.create(args)
   end
@@ -28,5 +28,10 @@ class Deck < ActiveRecord::Base
     w = words.show_by_now
     return nil if w.empty?
     w[rand(w.size)]
+  end
+  
+  def random(n)
+    n = words.size if n > words.size
+    words.shuffle[0...n]
   end
 end

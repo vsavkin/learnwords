@@ -83,6 +83,36 @@ describe Deck do
     word_that_should_be_shown = deck.words.create(@word_valid_attributes)
     deck.random_word.should == word_that_should_be_shown
   end
+  
+  it "should return n random words" do
+    deck = Deck.create(@valid_attributes)
+    deck.words.create(@word_valid_attributes.merge(word: 'Sam'))
+    deck.words.create(@word_valid_attributes.merge(word: 'Piter'))
+    deck.words.create(@word_valid_attributes.merge(word: 'Frodo'))
+    
+    words = deck.random(2)
+    words.size.should == 2
+    
+    words.each do |w|      
+      ['Sam', 'Piter', 'Frodo'].should be_include(w.word) 
+    end
+    
+    words.uniq.size.should == words.size
+  end
+  
+  it "should return as many random words as it contains" do
+    deck = Deck.create(@valid_attributes)
+    deck.words.create(@word_valid_attributes.merge(word: 'Sam'))
+    
+    words = deck.random(3)
+    words.size.should == 1             
+  end
+  
+  it "empty deck should return 0 random words" do
+    deck = Deck.create(@valid_attributes)
+    
+    deck.random(3).size.should == 0
+  end  
 
   it "should return nil if all words are learnt" do
     deck = Deck.create(@valid_attributes)

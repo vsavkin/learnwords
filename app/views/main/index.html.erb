@@ -1,6 +1,11 @@
 <div class="left-column">
-  <h2>First Steps in LearnWords</h2>
-  <li>one</li>
-  <li>two</li>
-  <li>three</li>
+  <% if @words %>
+    <h1>Some words from your decks:</h1>
+    <% for word in @words %>
+      <h2><%= word.word %></h2>
+      <div id="explanation">
+        <%= format_explanation(word.word, word.explanation, 5) %> 
+      </div>
+    <% end %>
+  <% end %>
 </div>

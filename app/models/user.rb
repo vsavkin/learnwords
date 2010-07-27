@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   validates_length_of :login, :in => 1..32
   validates_uniqueness_of :login
   has_many :decks
-
+  
   def copy(deck)
     raise "Can't copy private decks" if deck.is_private
     raise "Can't copy your own deck" if deck.user == self
@@ -29,5 +29,11 @@ class User < ActiveRecord::Base
 
   def has_word(word)
     decks.include? word.deck
+  end
+  
+  def random_words(n)
+    deck = decks.find_all{|d| !d.words.empty?}.shuffle[0]
+    return [] if deck.nil?
+    deck.random(n)
   end
 end
