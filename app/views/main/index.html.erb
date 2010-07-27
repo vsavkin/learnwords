@@ -3,7 +3,7 @@
     <h1>Some words from your decks:</h1>
     <% for word in @words %>
       <h2><%= word.word %></h2>
-      <div id="explanation">
+      <div>
         <%= format_explanation(word.word, word.explanation, 5) %> 
       </div>
     <% end %>
